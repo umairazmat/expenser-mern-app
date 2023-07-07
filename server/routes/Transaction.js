@@ -7,23 +7,35 @@ const router = Router();
 
 // sending transaction to server
 router.get("/transaction", async (req, res) => {
-    const transaction = await TransactionModel.find({}).sort({ createdAt: -1 });
-    res.json({data:transaction});
-  });
+  try {
+    const transactions = await TransactionModel.find({}).sort({ createdAt: -1 });
+    res.json({ data: transactions });
+  } catch (error) {
+    // Handle the error appropriately
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
   
   // getting transactions from server
   router.post("/transaction", async (req, res) => {
-    const { amount, title, description, date } = req.body;
-    const Transaction = new TransactionModel({
-      amount,
-      title,
-      description,
-      date,
-    });
+    try {
+      const { amount, title, description, createdAt } = req.body;
+      const transaction = new TransactionModel({
+        amount,
+        title,
+        description,
+        createdAt
+      });
   
-    await Transaction.save(); // saving data in db
-    res.json({ message: "Successfully Added" });
+      await transaction.save(); // Saving data in the database
+      res.json({ message: "Successfully Added" });
+    } catch (error) {
+      // Handle the error appropriately
+      res.status(500).json({ error: "Internal Server Error" });
+    }
   });
+  
   
 
   export default router;

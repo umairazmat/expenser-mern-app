@@ -27,13 +27,14 @@ export default function TransactionForm({ fetchTransactions }) {
     setForm({ ...form, date: newValue });
   }
 
+
   async function handleSubmit(e) {
     e.preventDefault();
     console.log("Working");
     console.log(form);
     const res = await fetch("http://localhost:4000/transaction", {
       method: "POST",
-      body: JSON.stringify(form),
+      body: JSON.stringify({ ...form }),
       headers: {
         "content-type": "application/json",
       },
@@ -97,6 +98,7 @@ export default function TransactionForm({ fetchTransactions }) {
                 )}
               />
             </LocalizationProvider>
+
             <Button
               type="submit"
               name="submit"

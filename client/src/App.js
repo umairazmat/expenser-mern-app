@@ -28,7 +28,7 @@ function App() {
             <th>Amount</th>
             <th>Title</th>
             <th>Description</th>
-            <th>Date</th>
+            <th>Create At</th>
           </thead>
           <tbody>
           {transactions.map((trx) => (
@@ -36,7 +36,8 @@ function App() {
                 <td>{trx.amount}</td>
                 <td>{trx.title}</td>
                 <td>{trx.description}</td>
-                <td>{trx.date}</td>
+                <td>{trx.createdAt}</td>
+              
               </tr>
             ))}
           </tbody>
