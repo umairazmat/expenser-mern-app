@@ -20,12 +20,12 @@ router.get("/transaction", async (req, res) => {
   // getting transactions from server
   router.post("/transaction", async (req, res) => {
     try {
-      const { amount, title, description, createdAt } = req.body;
+      const { amount, title, description, date } = req.body;
       const transaction = new TransactionModel({
         amount,
         title,
         description,
-        createdAt
+        date
       });
   
       await transaction.save(); // Saving data in the database
