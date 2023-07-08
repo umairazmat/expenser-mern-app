@@ -9,7 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 export default function ButtonAppBar() {
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1 , margin: "0px" , padding: "0px" }}>
       <AppBar position="static">
         <Toolbar>
           <IconButton

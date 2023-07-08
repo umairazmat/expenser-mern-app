@@ -1,4 +1,7 @@
 import * as React from 'react';
+import EditSharpIcon from '@mui/icons-material/EditSharp';
+import DeleteSharpIcon from '@mui/icons-material/DeleteSharp';
+import IconButton from '@mui/material/IconButton';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -37,7 +40,16 @@ export default function TransactionsList({transactions}) {
               <TableCell align="center">{trx.title}</TableCell>
               <TableCell align="center">{trx.description}</TableCell>
               <TableCell align="center">{trx.date}</TableCell>
-              <TableCell align="center">edit    delete</TableCell>
+              <TableCell align="center">
+                {/* Edit Button  */}
+                <IconButton aria-label="delete">
+                <EditSharpIcon />
+                </IconButton>
+                {/* Delete Button */}
+                <IconButton aria-label="delete">
+                <DeleteSharpIcon color='warning'/>
+                </IconButton> 
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
