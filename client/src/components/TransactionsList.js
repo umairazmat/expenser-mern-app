@@ -12,8 +12,24 @@ import Paper from '@mui/material/Paper';
 import { Typography } from '@mui/material';
 
 
-export default function TransactionsList({transactions}) {
+export default function TransactionsList({transactions ,fetchTransactions}) {
     let rowNumber = 1;
+
+    async function removeTransaction(_id) {
+        console.log(_id);
+        if (!window.confirm("Are you sure you want to delete the transaction?")) return;
+    
+        const res = await fetch(`http://localhost:4000/transaction/${_id}`, {
+          method: "DELETE",
+        });
+    
+        if (res.ok) {
+        fetchTransactions();
+         console.log("Transaction deleted");
+          window.alert('Transaction deleted successfully');
+        }
+      }
+    
   return (
     <>
     <Typography variant='h6' sx={{marginTop: "20px" }}>Transactions List</Typography>
@@ -46,7 +62,7 @@ export default function TransactionsList({transactions}) {
                 <EditSharpIcon />
                 </IconButton>
                 {/* Delete Button */}
-                <IconButton aria-label="delete">
+                <IconButton aria-label="delete" onClick={ () =>  removeTransaction(trx._id) }>
                 <DeleteSharpIcon color='warning'/>
                 </IconButton> 
               </TableCell>

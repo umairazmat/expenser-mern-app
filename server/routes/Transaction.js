@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import TransactionModel from "../models/Transaction.js";
+import Transaction from '../models/Transaction.js';
 
 
 const router = Router();
@@ -36,6 +37,15 @@ router.get("/transaction", async (req, res) => {
     }
   });
   
+  router.delete("/transaction/:id", async (req, res) => {
+    console.log(req.params.id);
+    try {
+      await Transaction.deleteOne({ _id: req.params.id });
+      res.json({ message: "Successfully Deleted" });
+    } catch (error) {
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  });
   
 
   export default router;
