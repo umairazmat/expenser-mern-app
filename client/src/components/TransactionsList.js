@@ -1,4 +1,7 @@
 import * as React from 'react';
+import EditSharpIcon from '@mui/icons-material/EditSharp';
+import DeleteSharpIcon from '@mui/icons-material/DeleteSharp';
+import IconButton from '@mui/material/IconButton';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -9,8 +12,24 @@ import Paper from '@mui/material/Paper';
 import { Typography } from '@mui/material';
 
 
-export default function TransactionsList({transactions}) {
+export default function TransactionsList({transactions ,fetchTransactions}) {
     let rowNumber = 1;
+
+    async function removeTransaction(_id) {
+        console.log(_id);
+        if (!window.confirm("Are you sure you want to delete the transaction?")) return;
+    
+        const res = await fetch(`http://localhost:4000/transaction/${_id}`, {
+          method: "DELETE",
+        });
+    
+        if (res.ok) {
+        fetchTransactions();
+         console.log("Transaction deleted");
+          window.alert('Transaction deleted successfully');
+        }
+      }
+    
   return (
     <>
     <Typography variant='h6' sx={{marginTop: "20px" }}>Transactions List</Typography>
@@ -37,7 +56,16 @@ export default function TransactionsList({transactions}) {
               <TableCell align="center">{trx.title}</TableCell>
               <TableCell align="center">{trx.description}</TableCell>
               <TableCell align="center">{trx.date}</TableCell>
-              <TableCell align="center">edit    delete</TableCell>
+              <TableCell align="center">
+                {/* Edit Button  */}
+                <IconButton aria-label="delete">
+                <EditSharpIcon />
+                </IconButton>
+                {/* Delete Button */}
+                <IconButton aria-label="delete" onClick={ () =>  removeTransaction(trx._id) }>
+                <DeleteSharpIcon color='warning'/>
+                </IconButton> 
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

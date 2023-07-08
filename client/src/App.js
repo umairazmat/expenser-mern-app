@@ -24,7 +24,7 @@ function App() {
      <AppBar/>
     <Container >
     <TransactionForm fetchTransactions={fetchTransactions}/>
-    <TransactionsList transactions={transactions} />
+    <TransactionsList transactions={transactions} fetchTransactions={fetchTransactions}/>
     </Container>
     </>
   );
