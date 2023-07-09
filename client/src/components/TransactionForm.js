@@ -21,10 +21,20 @@ export default function TransactionForm({
   editTransaction,
 }) {
   const [form, setForm] = useState(InitialForm);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(() => {
-    if (editTransaction.amount !== undefined ) {
+    if (
+      editTransaction.amount !== undefined &&
+      editTransaction.title !== undefined &&
+      editTransaction.description !== undefined &&
+      editTransaction.date !== undefined
+    ) {
       setForm(editTransaction);
+      setIsUpdating(true);
+    } else {
+      setForm(InitialForm);
+      setIsUpdating(false);
     }
   }, [editTransaction]);
 
@@ -39,31 +49,30 @@ export default function TransactionForm({
 
   async function handleSubmit(e) {
     e.preventDefault();
-  
+
     const res =
       editTransaction.amount === undefined ? await create() : await update();
     console.log("Working");
     console.log(form);
-  
+
     if (res && res.ok) {
-      // Check if the response is defined and successful
       const data = await res.json();
       console.log("from Post", data);
       fetchTransactions();
-      setForm(InitialForm); // Clear the form fields
+      setForm(InitialForm);
     } else {
       console.log("Error occurred while submitting the transaction");
     }
   }
-  
 
   function reload(res) {
     if (res.ok) {
       fetchTransactions();
       setForm(InitialForm);
+      setIsUpdating(false);
     }
   }
-  
+
   async function create() {
     const res = await fetch("http://localhost:4000/transaction", {
       method: "POST",
@@ -72,20 +81,24 @@ export default function TransactionForm({
         "Content-Type": "application/json",
       },
     });
-      reload(res);
+    reload(res);
   }
-  
+
   async function update() {
-    const res = await fetch(`http://localhost:4000/transaction/${editTransaction._id}`, {
-      method: "PATCH",
-      body: JSON.stringify({ ...form }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-      reload(res);
+    const res = await fetch(
+      `http://localhost:4000/transaction/${editTransaction._id}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({ ...form }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    reload(res);
   }
-  
+
   return (
     <>
       <Card sx={{ minWidth: 275, marginTop: 10 }}>
@@ -135,35 +148,33 @@ export default function TransactionForm({
                 )}
               />
             </LocalizationProvider>
-
-            {editTransaction.amount !== undefined  && (
-              <Button
-                color="secondary"
-                type="submit"
-                name="update"
-                variant="contained"
-                size="large"
-                label="Update"
-                value={form.submit}
-                sx={{ marginLeft: 5 }}
-              >
-                Update
-              </Button>
-            )}
-            {editTransaction.amount === undefined && (
-              <Button
-                color="primary"
-                type="submit"
-                name="submit"
-                variant="contained"
-                size="large"
-                label="Submit"
-                value={form.submit}
-                sx={{ marginLeft: 5 }}
-              >
-                Submit
-              </Button>
-            )}
+            {isUpdating ? (
+          <Button
+            color="secondary"
+            type="submit"
+            name="update"
+            variant="contained"
+            size="large"
+            label="Update"
+            value={form.submit}
+            sx={{ marginLeft: 5 }}
+          >
+            Update
+          </Button>
+        ) : (
+          <Button
+            color="primary"
+            type="submit"
+            name="submit"
+            variant="contained"
+            size="large"
+            label="Submit"
+            value={form.submit}
+            sx={{ marginLeft: 5 }}
+          >
+            Submit
+          </Button>
+        )}
           </form>
         </CardContent>
       </Card>
