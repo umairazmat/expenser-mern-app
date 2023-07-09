@@ -13,7 +13,7 @@ import dayjs from 'dayjs';
 import { Typography } from '@mui/material';
 
 
-export default function TransactionsList({transactions ,fetchTransactions}) {
+export default function TransactionsList({transactions ,fetchTransactions , setEditTransaction}) {
 
 
     let rowNumber = 1;
@@ -65,7 +65,7 @@ export default function TransactionsList({transactions ,fetchTransactions}) {
               <TableCell align="center">{format(trx.date)}</TableCell>
               <TableCell align="center">
                 {/* Edit Button  */}
-                <IconButton aria-label="delete">
+                <IconButton aria-label="edit" onClick={ () =>  setEditTransaction(trx) }>
                 <EditSharpIcon />
                 </IconButton>
                 {/* Delete Button */}

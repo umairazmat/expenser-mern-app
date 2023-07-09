@@ -46,6 +46,15 @@ router.get("/transaction", async (req, res) => {
       res.status(500).json({ error: "Internal Server Error" });
     }
   });
+
+  router.patch("/transaction/:id", async (req, res) => {
+    try {
+      await Transaction.updateOne({ _id: req.params.id } , { $set :req.body });
+      res.json({ message: "Successfully Deleted" });
+    } catch (error) {
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  });
   
 
   export default router;
