@@ -9,10 +9,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import dayjs from 'dayjs';
 import { Typography } from '@mui/material';
 
 
 export default function TransactionsList({transactions ,fetchTransactions}) {
+
+
     let rowNumber = 1;
 
     async function removeTransaction(_id) {
@@ -28,6 +31,10 @@ export default function TransactionsList({transactions ,fetchTransactions}) {
          console.log("Transaction deleted");
           window.alert('Transaction deleted successfully');
         }
+      }
+
+      function format(date) {
+        return dayjs(date).format("DD-MMM, YYYY dddd");
       }
     
   return (
@@ -55,7 +62,7 @@ export default function TransactionsList({transactions ,fetchTransactions}) {
               <TableCell component="th" scope="row"  align="center">{trx.amount}</TableCell>
               <TableCell align="center">{trx.title}</TableCell>
               <TableCell align="center">{trx.description}</TableCell>
-              <TableCell align="center">{trx.date}</TableCell>
+              <TableCell align="center">{format(trx.date)}</TableCell>
               <TableCell align="center">
                 {/* Edit Button  */}
                 <IconButton aria-label="delete">
