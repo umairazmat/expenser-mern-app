@@ -8,6 +8,7 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { useState, useEffect } from "react";
 import { create } from "@mui/material/styles/createTransitions";
+import { Container } from "@mui/material";
 
 const InitialForm = {
   amount: "",
@@ -101,7 +102,8 @@ export default function TransactionForm({
 
   return (
     <>
-      <Card sx={{ minWidth: 275, marginTop: 10 }}>
+    <Container maxWidth="lg" sx={{marginTop: 10 ,  display: 'flex', justifyContent: 's', alignItems: 'center' }}>
+    <Card sx={{ minWidth: 300,  }}>
         <CardContent>
           <Typography variant="h6" sx={{ paddingBottom: 2 }}>
             Add New Transaction here
@@ -109,7 +111,7 @@ export default function TransactionForm({
           <form onSubmit={handleSubmit}>
             <TextField
               type="number"
-              sx={{ marginRight: 3 }}
+              sx={{ marginRight: 2 ,marginBottom:2 }}
               id="outlined-basic"
               label="Amount"
               name="amount"
@@ -119,7 +121,7 @@ export default function TransactionForm({
             />
             <TextField
               type="text"
-              sx={{ marginRight: 3 }}
+              sx={{ marginRight: 2,marginBottom:2 }}
               id="outlined-basic"
               label="Title"
               name="title"
@@ -129,7 +131,7 @@ export default function TransactionForm({
             />
             <TextField
               type="text"
-              sx={{ marginRight: 3 }}
+              sx={{ marginRight: 2,marginBottom:2 }}
               id="outlined-basic"
               label="Description"
               name="description"
@@ -139,6 +141,7 @@ export default function TransactionForm({
             />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DesktopDatePicker
+               sx={{ marginRight: 2, marginBottom:2 }}
                 label="Transaction Date"
                 inputFormat="MM/DD/YYYY"
                 name="date"
@@ -157,7 +160,8 @@ export default function TransactionForm({
             size="large"
             label="Update"
             value={form.submit}
-            sx={{ marginLeft: 5 }}
+            
+            
           >
             Update
           </Button>
@@ -170,7 +174,6 @@ export default function TransactionForm({
             size="large"
             label="Submit"
             value={form.submit}
-            sx={{ marginLeft: 5 }}
           >
             Submit
           </Button>
@@ -178,6 +181,8 @@ export default function TransactionForm({
           </form>
         </CardContent>
       </Card>
+    </Container>
+     
     </>
   );
 }
