@@ -13,6 +13,8 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import electronicWallet from "../assets/images/electronic-wallet.png";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -27,17 +29,38 @@ function Copyright(props) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
+// // TODO remove, this demo shouldn't need to reset the theme.
 
 
-export default function Register() {
-  const handleSubmit = (event) => {
+export default function Login() {
+  const navigate = useNavigate();
+ 
+  const handleSubmit =  async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const form = {
       email: data.get('email'),
       password: data.get('password'),
+    };
+    const res = await fetch("http://localhost:4000/auth/login", {
+      method: 'POST',
+      body: JSON.stringify(form),
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
+
+    const {  token  } = await res.json();
+  
+    if (res.ok) {
+      Cookies.set('token',token)
+      console.log("Successfully Logged In " ,token);
+       navigate('/');
+      // Perform any further actions or handle success state here
+    } else {
+      console.log("Login failed");
+      // Handle error state or display an error message
+    }
   };
 
   return (

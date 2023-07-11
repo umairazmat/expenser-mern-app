@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import {Link as RouterLink} from 'react-router-dom';
+import {Link as RouterLink , useNavigate} from 'react-router-dom';
 
 function Copyright(props) {
   return (
@@ -29,6 +29,7 @@ function Copyright(props) {
 
 
 export default function Register() {
+  const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -41,6 +42,7 @@ export default function Register() {
   
     const res = await fetch("http://localhost:4000/auth/register", {
       method: 'POST',
+      method: 'POST',
       body: JSON.stringify(form),
       headers: {
         'Content-Type': 'application/json',
@@ -48,6 +50,7 @@ export default function Register() {
     });
   
     if (res.ok) {
+      navigate('/login');
       console.log("Successfully registered");
       // Perform any further actions or handle success state here
     } else {
