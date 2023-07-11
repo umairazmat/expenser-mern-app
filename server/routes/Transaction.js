@@ -7,7 +7,7 @@ const router = Router();
 
 
 // sending transaction to server
-router.get("/transaction", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const transactions = await TransactionModel.find({}).sort({ createdAt: -1 });
     res.json({ data: transactions });
@@ -19,7 +19,7 @@ router.get("/transaction", async (req, res) => {
 
   
   // getting transactions from server
-  router.post("/transaction", async (req, res) => {
+  router.post("/", async (req, res) => {
     try {
       const { amount, title, description, date } = req.body;
       const transaction = new TransactionModel({
@@ -37,7 +37,7 @@ router.get("/transaction", async (req, res) => {
     }
   });
   
-  router.delete("/transaction/:id", async (req, res) => {
+  router.delete("/:id", async (req, res) => {
     console.log(req.params.id);
     try {
       await Transaction.deleteOne({ _id: req.params.id });
@@ -47,7 +47,7 @@ router.get("/transaction", async (req, res) => {
     }
   });
 
-  router.patch("/transaction/:id", async (req, res) => {
+  router.patch("/:id", async (req, res) => {
     try {
       await Transaction.updateOne({ _id: req.params.id } , { $set :req.body });
       res.json({ message: "Successfully Deleted" });

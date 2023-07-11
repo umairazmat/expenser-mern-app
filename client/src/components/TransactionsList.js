@@ -10,7 +10,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import dayjs from 'dayjs';
-import { Typography } from '@mui/material';
+import { Typography ,Box } from '@mui/material';
 
 
 export default function TransactionsList({transactions ,fetchTransactions , setEditTransaction}) {
@@ -39,11 +39,12 @@ export default function TransactionsList({transactions ,fetchTransactions , setE
     
   return (
     <>
+    <Box sx={{ marginTop: "20px", overflowX: 'auto' }}>
     <Typography variant='h6' sx={{marginTop: "20px" }}>Transactions List</Typography>
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} size="medium" aria-label="a dense table">
+    <TableContainer component={Paper}  sx={{ maxWidth: '100%' }}>
+      <Table sx={{ overflowX: 'auto' }} size="medium" aria-label="a dense table">
         <TableHead>
-          <TableRow>
+          <TableRow >
            <TableCell align="center">No.</TableCell>
             <TableCell align="center">Amount</TableCell>
             <TableCell align="center">Title</TableCell>
@@ -56,7 +57,7 @@ export default function TransactionsList({transactions ,fetchTransactions , setE
           {transactions.map((trx) => (
             <TableRow
               key={trx._id}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+             sx={{ '&:last-child td, &:last-child th': { border: 0 }, flexWrap: 'wrap' }}
             >
             <TableCell align="center">{rowNumber++}</TableCell>
               <TableCell component="th" scope="row"  align="center">{trx.amount}</TableCell>
@@ -78,6 +79,7 @@ export default function TransactionsList({transactions ,fetchTransactions , setE
         </TableBody>
       </Table>
     </TableContainer>
+    </Box>
     </>
   );
 }
