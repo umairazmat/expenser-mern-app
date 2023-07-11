@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import bodyParser from "body-parser";
 import TransactionRouters from "./routes/Transaction.js";
+import AuthApi from "./routes/AuthApi.js";
 
 const app = express();
 app.use(cors());
@@ -13,7 +14,8 @@ app.get("/", (req, res) => {
   res.send("Welcome to Serve of Expense Tracker App");
 });
 
-app.use("/",TransactionRouters);
+app.use("/transaction",TransactionRouters);
+app.use("/auth",AuthApi);
 
 
 dotenv.config();

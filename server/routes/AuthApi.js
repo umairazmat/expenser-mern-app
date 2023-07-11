@@ -13,7 +13,7 @@ const router = Router();
     //   });
   
     //   await transaction.save(); // Saving data in the database
-      res.json({ message: "Successfully Added" });
+      res.json({ message: "New User Created" });
     } catch (error) {
       // Handle the error appropriately
       res.status(500).json({ error: "Internal Server Error" });
