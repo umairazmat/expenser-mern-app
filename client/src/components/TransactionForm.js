@@ -51,8 +51,7 @@ export default function TransactionForm({
   async function handleSubmit(e) {
     e.preventDefault();
 
-    const res =
-      editTransaction.amount === undefined ? await create() : await update();
+    const res = isUpdating ? await update() : await create();
     console.log("Working");
     console.log(form);
 
@@ -159,8 +158,7 @@ export default function TransactionForm({
             variant="contained"
             size="large"
             label="Update"
-            value={form.submit}
-            
+           
             
           >
             Update
@@ -173,7 +171,7 @@ export default function TransactionForm({
             variant="contained"
             size="large"
             label="Submit"
-            value={form.submit}
+           
           >
             Submit
           </Button>
