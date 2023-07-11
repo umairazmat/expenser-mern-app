@@ -6,9 +6,19 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import walletIcon from "../assets/icons/walletIcon.png";
-import { Link } from "react-router-dom";
+import { Link , useNavigate} from "react-router-dom";
+import Cookies from "js-cookie";
+
+
 
 export default function ButtonAppBar() {
+  const navigate = useNavigate();
+
+  const logout = () => {
+    Cookies.remove('token');
+      navigate('/login');
+    };
+
   return (
     <Box sx={{ flexGrow: 1, margin: "0px", padding: "0px" }}>
       <AppBar position="static">
@@ -48,8 +58,9 @@ export default function ButtonAppBar() {
               Expenser App
             </Typography>
           </Link>
-
+       
           <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Button color="inherit" onClick={logout} sx={{ display: "flex", alignItems: "right" }}>Log Out</Button>
             <Link
               to="/login"
               style={{ textDecoration: "none", color: "white", marginRight: 1 }}

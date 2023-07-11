@@ -5,6 +5,9 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import TransactionRouters from "./routes/Transaction.js";
 import AuthApi from "./routes/AuthApi.js";
+import passport from "passport";
+import passportConfig from "./config/passport.js";
+
 
 const app = express();
 app.use(cors());
@@ -16,16 +19,19 @@ app.get("/", (req, res) => {
 
 app.use("/transaction",TransactionRouters);
 app.use("/auth",AuthApi);
+app.use(passport.initialize());
+passportConfig(passport);
 
 
 dotenv.config();
 const Port = process.env.PORT;
 const user = process.env.USER;
 const password = process.env.PASSWORD;
+const url = process.env.URL;
 
 await mongoose
   .connect(
-    `mongodb+srv://${user}:${password}@expensetracker.gpmiy2p.mongodb.net/?retryWrites=true&w=majority`
+    `mongodb+srv://${user}:${password}${url}/?retryWrites=true&w=majority`
   )
   .then(() => {
     console.log("Mongo DB Connected Successfully");

@@ -22,7 +22,7 @@ export default function TransactionsList({transactions ,fetchTransactions , setE
         console.log(_id);
         if (!window.confirm("Are you sure you want to delete the transaction?")) return;
     
-        const res = await fetch(`http://localhost:4000/transaction/${_id}`, {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/${_id}`, {
           method: "DELETE",
         });
     
