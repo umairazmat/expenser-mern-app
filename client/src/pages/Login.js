@@ -30,14 +30,29 @@ function Copyright(props) {
 // TODO remove, this demo shouldn't need to reset the theme.
 
 
-export default function Register() {
-  const handleSubmit = (event) => {
+export default function login() {
+  const handleSubmit =  async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const form = {
       email: data.get('email'),
       password: data.get('password'),
+    };
+    const res = await fetch("http://localhost:4000/auth/login", {
+      method: 'POST',
+      body: JSON.stringify(form),
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
+  
+    if (res.ok) {
+      console.log("Successfully Logged In ");
+      // Perform any further actions or handle success state here
+    } else {
+      console.log("Login failed");
+      // Handle error state or display an error message
+    }
   };
 
   return (
