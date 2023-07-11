@@ -13,6 +13,8 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import electronicWallet from "../assets/images/electronic-wallet.png";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -27,10 +29,12 @@ function Copyright(props) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
+// // TODO remove, this demo shouldn't need to reset the theme.
 
 
-export default function login() {
+export default function Login() {
+  const navigate = useNavigate();
+ 
   const handleSubmit =  async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -45,9 +49,13 @@ export default function login() {
         'Content-Type': 'application/json',
       },
     });
+
+    const {  token  } = await res.json();
   
     if (res.ok) {
-      console.log("Successfully Logged In ");
+      Cookies.set('token',token)
+      console.log("Successfully Logged In " ,token);
+       navigate('/');
       // Perform any further actions or handle success state here
     } else {
       console.log("Login failed");
