@@ -5,6 +5,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import TransactionRouters from "./routes/Transaction.js";
 import AuthApi from "./routes/AuthApi.js";
+import UserApi from "./routes/UserApi.js";
 import passport from "passport";
 import passportConfig from "./config/passport.js";
 
@@ -18,7 +19,9 @@ app.get("/", (req, res) => {
 });
 
 app.use("/transaction",TransactionRouters);
+
 app.use("/auth",AuthApi);
+app.use("/user", UserApi);
 app.use(passport.initialize());
 passportConfig(passport);
 
