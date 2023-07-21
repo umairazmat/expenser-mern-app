@@ -8,16 +8,19 @@ import IconButton from "@mui/material/IconButton";
 import walletIcon from "../assets/icons/walletIcon.png";
 import { Link , useNavigate} from "react-router-dom";
 import Cookies from "js-cookie";
-
+import {  useDispatch } from 'react-redux';
+import { logout } from '../store/auth.js';
 
 
 export default function ButtonAppBar() {
   const navigate = useNavigate();
-
-  const logout = () => {
+  const dispatch = useDispatch();
+  
+  function _logout() {
     Cookies.remove('token');
-      navigate('/login');
-    };
+    dispatch(logout()); // Corrected line to dispatch the 'logout' action
+    navigate('/login');
+  }
 
   return (
     <Box sx={{ flexGrow: 1, margin: "0px", padding: "0px" }}>
@@ -60,7 +63,7 @@ export default function ButtonAppBar() {
           </Link>
        
           <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Button color="inherit" onClick={logout} sx={{ display: "flex", alignItems: "right" }}>Log Out</Button>
+          <Button color="inherit" onClick={_logout} sx={{ display: "flex", alignItems: "right" }}>Log Out</Button>
             <Link
               to="/login"
               style={{ textDecoration: "none", color: "white", marginRight: 1 }}
