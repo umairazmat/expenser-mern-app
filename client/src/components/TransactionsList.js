@@ -19,19 +19,30 @@ export default function TransactionsList({transactions ,fetchTransactions , setE
     let rowNumber = 1;
 
     async function removeTransaction(_id) {
-        console.log(_id);
-        if (!window.confirm("Are you sure you want to delete the transaction?")) return;
+      console.log(_id);
+      if (!window.confirm("Are you sure you want to delete the transaction?")) return;
     
-        const res = await fetch(`${process.env.REACT_APP_API_URL}/${_id}`, {
+      try {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/transaction/${_id}`, {
           method: "DELETE",
         });
     
         if (res.ok) {
-        fetchTransactions();
-         console.log("Transaction deleted");
+          fetchTransactions();
+          console.log("Transaction deleted");
           window.alert('Transaction deleted successfully');
+        } else {
+          const data = await res.json();
+          throw new Error(data.error || "Failed to delete transaction");
         }
+      } catch (error) {
+        console.error("An error occurred:", error.message);
+        // Handle the error appropriately, such as showing an error message to the user
       }
+    }
+    
+    
+  
 
       function format(date) {
         return dayjs(date).format("DD-MMM, YYYY dddd");
