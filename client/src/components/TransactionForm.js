@@ -9,6 +9,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { useState, useEffect } from "react";
 import { create } from "@mui/material/styles/createTransitions";
 import { Container } from "@mui/material";
+import Cookies from "js-cookie";  
 
 const InitialForm = {
   amount: "",
@@ -23,6 +24,7 @@ export default function TransactionForm({
 }) {
   const [form, setForm] = useState(InitialForm);
   const [isUpdating, setIsUpdating] = useState(false);
+  const token = Cookies.get('token');
 
   useEffect(() => {
     if (
@@ -50,21 +52,26 @@ export default function TransactionForm({
 
   async function handleSubmit(e) {
     e.preventDefault();
-
-    const res = isUpdating ? await update() : await create();
-    console.log("Working");
-    console.log(form);
-
-    if (res && res.ok) {
-      const data = await res.json();
-      console.log("from Post", data);
-      fetchTransactions();
-      setForm(InitialForm);
-    } else {
-      console.log("Error occurred while submitting the transaction");
+  
+    try {
+      const res = isUpdating ? await update() : await create();
+  
+      console.log("Working");
+      console.log(form);
+  
+      if (res && res.ok) {
+        const data = await res.json();
+        console.log("Response from Post", data); // Log the response data
+        fetchTransactions(); // Fetch updated transactions
+        setForm(InitialForm); // Reset the form
+      } else {
+        console.log("Error occurred while submitting the transaction");
+      }
+    } catch (error) {
+      console.error("An error occurred while submitting:", error);
     }
   }
-
+  
   function reload(res) {
     if (res.ok) {
       fetchTransactions();
@@ -79,6 +86,7 @@ export default function TransactionForm({
       body: JSON.stringify({ ...form }),
       headers: {
         "Content-Type": "application/json",
+        'Authorization': `Bearer  ${token}`
       },
     });
     reload(res);
@@ -92,6 +100,7 @@ export default function TransactionForm({
         body: JSON.stringify({ ...form }),
         headers: {
           "Content-Type": "application/json",
+          'Authorization': `Bearer  ${token}`
         },
       }
     );

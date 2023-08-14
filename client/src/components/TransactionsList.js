@@ -11,11 +11,13 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import dayjs from 'dayjs';
 import { Typography ,Box } from '@mui/material';
+import Cookies from "js-cookie";  
+
 
 
 export default function TransactionsList({transactions ,fetchTransactions , setEditTransaction}) {
 
-
+   const token = Cookies.get('token');
     let rowNumber = 1;
 
     async function removeTransaction(_id) {
@@ -25,6 +27,10 @@ export default function TransactionsList({transactions ,fetchTransactions , setE
       try {
         const res = await fetch(`${process.env.REACT_APP_API_URL}/transaction/${_id}`, {
           method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            'Authorization': `Bearer  ${token}`
+          },
         });
     
         if (res.ok) {

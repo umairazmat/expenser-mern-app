@@ -3,7 +3,7 @@ import Transaction from "../models/Transaction.js";
 
 export const get = async (req, res) => {
   try {
-    const transactions = await TransactionModel.find({}).sort({
+    const transactions = await TransactionModel.find({ user_id: req.user._id }).sort({
       createdAt: -1,
     });
     res.json({ data: transactions });
@@ -14,12 +14,15 @@ export const get = async (req, res) => {
 };
 
 export const create = async (req, res) => {
+  console.log(req.body); // Log the request body to the console for debugging purposes
+  console.log(req.user); // Log the request body to the console for debugging purposes
   try {
     const { amount, title, description, date } = req.body;
     const transaction = new TransactionModel({
       amount,
       title,
       description,
+      user_id: req.user._id,
       date,
     });
 

@@ -6,20 +6,20 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import walletIcon from "../assets/icons/walletIcon.png";
-import { Link , useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import {  useDispatch } from 'react-redux';
-import { logout } from '../store/auth.js';
+import { useDispatch , useSelector } from "react-redux";
+import { logout } from "../store/auth.js";
 
 
 export default function ButtonAppBar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   function _logout() {
-    Cookies.remove('token');
+    Cookies.remove("token");
     dispatch(logout()); // Corrected line to dispatch the 'logout' action
-    navigate('/login');
+    navigate("/login");
   }
 
   return (
@@ -61,21 +61,38 @@ export default function ButtonAppBar() {
               Expenser App
             </Typography>
           </Link>
-       
+
           <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Button color="inherit" onClick={_logout} sx={{ display: "flex", alignItems: "right" }}>Log Out</Button>
-            <Link
-              to="/login"
-              style={{ textDecoration: "none", color: "white", marginRight: 1 }}
-            >
-              <Button color="inherit">Login</Button>
-            </Link>
-            <Link
-              to="/register"
-              style={{ textDecoration: "none", color: "white" }}
-            >
-              <Button color="inherit">Register</Button>
-            </Link>
+            {isAuthenticated && (
+              <Button
+                color="inherit"
+                onClick={_logout}
+                sx={{ display: "flex", alignItems: "right" }}
+              >
+                Log Out
+              </Button>
+            )}
+
+            {!isAuthenticated && (
+              <>
+                <Link
+                  to="/login"
+                  style={{
+                    textDecoration: "none",
+                    color: "white",
+                    marginRight: 1,
+                  }}
+                >
+                  <Button color="inherit">Login</Button>
+                </Link>
+                <Link
+                  to="/register"
+                  style={{ textDecoration: "none", color: "white" }}
+                >
+                  <Button color="inherit">Register</Button>
+                </Link>
+              </>
+            )}
           </Box>
         </Toolbar>
       </AppBar>
