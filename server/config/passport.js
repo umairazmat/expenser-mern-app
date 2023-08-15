@@ -16,7 +16,7 @@ export default (passport) => {
   passport.use(
     new JwtStrategy(opts, async (jwt_payload, done) => {
       try {
-        const user = await User.findOne({ id: jwt_payload.sub });
+        const user = await User.findOne({ _id: jwt_payload._id });
         if (user) {
           return done(null, user);
         } else {

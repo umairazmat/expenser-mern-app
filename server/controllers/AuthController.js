@@ -62,9 +62,10 @@ export const login = async (req, res) => {
   
       const payload ={
         username:email ,
-        _id:User._id
+        _id:userExists._id
       }
-      const token = jwt.sign({ payload }, process.env.JWT_SECRET);
+      // console.log("Payload", payload)
+      const token = jwt.sign(payload, process.env.JWT_SECRET);
       res.json({ message: 'Successfully logged in', token , userExists });
     } catch (error) {
       console.error(error);
