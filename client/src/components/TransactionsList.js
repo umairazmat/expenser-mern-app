@@ -12,10 +12,18 @@ import Paper from '@mui/material/Paper';
 import dayjs from 'dayjs';
 import { Typography ,Box } from '@mui/material';
 import Cookies from "js-cookie";  
+import { useSelector } from "react-redux";
 
 
 
 export default function TransactionsList({transactions ,fetchTransactions , setEditTransaction}) {
+
+  const user = useSelector((state) => state.auth.user);
+  function categoryName(id) {
+    const category = user.categories.find((category) => category._id === id);
+        return category ? category.label: "Not Found";
+  }
+
 
    const token = Cookies.get('token');
     let rowNumber = 1;
@@ -53,7 +61,8 @@ export default function TransactionsList({transactions ,fetchTransactions , setE
       function format(date) {
         return dayjs(date).format("DD-MMM, YYYY dddd");
       }
-    
+
+     
   return (
     <>
     <Box sx={{ marginTop: "20px", overflowX: 'auto' }}>
@@ -65,6 +74,7 @@ export default function TransactionsList({transactions ,fetchTransactions , setE
            <TableCell align="center">No.</TableCell>
             <TableCell align="center">Amount</TableCell>
             <TableCell align="center">Title</TableCell>
+            <TableCell align="center">Categories</TableCell>
             <TableCell align="center">Description</TableCell>
             <TableCell align="center">Date</TableCell>
             <TableCell align="center">Actions</TableCell>
@@ -79,6 +89,7 @@ export default function TransactionsList({transactions ,fetchTransactions , setE
             <TableCell align="center">{rowNumber++}</TableCell>
               <TableCell component="th" scope="row"  align="center">{trx.amount}</TableCell>
               <TableCell align="center">{trx.title}</TableCell>
+              <TableCell align="center">{categoryName(trx.category_id)}</TableCell>
               <TableCell align="center">{trx.description}</TableCell>
               <TableCell align="center">{format(trx.date)}</TableCell>
               <TableCell align="center">

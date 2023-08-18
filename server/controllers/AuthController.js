@@ -4,6 +4,16 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 const router = Router();
 
+const categories = [
+  {label: "Food" , icon:"user"},
+  {label: "Transportation", icon:"user"},
+  {label: "Shopping", icon:"user"},
+  {label: "Entertainment", icon:"user"},
+  {label: "Health", icon:"user"},
+  {label: "Education", icon:"user"},
+  {label: "Others", icon:"user"},
+]
+
 export const register = async (req, res) => {
   try {
     // Check if user is already registered
@@ -28,6 +38,7 @@ export const register = async (req, res) => {
       lastName,
       email,
       password: hash,
+      categories,
     });
     await newUser.save();
     res.status(201).json({ message: "New User is Created" });
