@@ -61,8 +61,19 @@ export default function ButtonAppBar() {
               Expenser App
             </Typography>
           </Link>
+           
 
           <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Link
+                  to="/category"
+                  style={{
+                    textDecoration: "none",
+                    color: "white",
+                    marginRight: 1,
+                  }}
+                >
+                  <Button color="inherit">Category</Button>
+                </Link>
             {isAuthenticated && (
               <Button
                 color="inherit"
@@ -94,6 +105,7 @@ export default function ButtonAppBar() {
               </>
             )}
           </Box>
+          
         </Toolbar>
       </AppBar>
     </Box>

@@ -7,6 +7,7 @@ const TransactionSchema = new Schema({
   description: String,
   user_id: mongoose.Types.ObjectId,
   date: {type: Date , default: new Date()},
+  category_id: mongoose.Types.ObjectId,
   createdAt: { type: Date , default: Date.now }
 });
 
