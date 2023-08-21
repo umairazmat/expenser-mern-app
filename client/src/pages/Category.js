@@ -14,12 +14,19 @@ import { Typography, Box, Container } from "@mui/material";
 import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../store/auth.js";
+import CategoryForm from "../components/CategoryForm.js";
 
 export default function Category() {
   const token = Cookies.get("token");
   const user = useSelector((state) => state.auth.user);
   let rowNumber = 1;
   const dispatch = useDispatch();
+
+  const [editCategory, setEditCategory] = React.useState({});
+
+  function setEdit(category) {
+    setEditCategory(category);
+  }
   
   async function remove(id) {
     const res = await fetch(`${process.env.REACT_APP_API_URL}/category/${id}`, {
@@ -39,6 +46,7 @@ export default function Category() {
 
   return (
     <Container>
+     <CategoryForm editCategory={editCategory} />
       <Box sx={{ marginTop: "20px", overflowX: "auto" }}>
         <Typography variant="h6" sx={{ marginTop: "20px" }}>
           List of Categories
@@ -76,6 +84,7 @@ export default function Category() {
                     <IconButton
                       aria-label="edit"
                       // onClick={ () =>  setEditTransaction(trx) }
+                      onClick={() => setEdit(trx)}
                     >
                       <EditSharpIcon />
                     </IconButton>
