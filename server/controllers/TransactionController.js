@@ -2,15 +2,28 @@ import TransactionModel from "../models/Transaction.js";
 import Transaction from "../models/Transaction.js";
 
 export const get = async (req, res) => {
-  try {
-    const transactions = await TransactionModel.find({ user_id: req.user._id }).sort({
-      createdAt: -1,
-    });
-    res.json({ data: transactions });
-  } catch (error) {
-    // Handle the error appropriately
-    res.status(500).json({ error: "Internal Server Error" });
-  }
+  const demo = await Transaction.aggregate([
+    {
+      $match: { user_id: req.user._id },
+    },
+    {
+      $group: {
+        _id: { $month: "$date" },
+        transactions: {
+          $push: {
+            amount: "$amount",
+            title: "$title",
+            description: "$description",
+            date: "$date",
+            category_id: "$category_id",
+          },
+        },
+        totalExpenses: { $sum: "$amount" },
+      },
+    },
+    { $sort: { _id: 1 } },
+  ]);
+  res.json({ data: demo });
 };
 
 export const create = async (req, res) => {

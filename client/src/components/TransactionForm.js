@@ -22,6 +22,7 @@ const InitialForm = {
 
 export default function TransactionForm({fetchTransactions, editTransaction,}) {
   const {categories} = useSelector((state) => state.auth.user);
+  
   const [form, setForm] = useState(InitialForm);
   
   const [isUpdating, setIsUpdating] = useState(false);
