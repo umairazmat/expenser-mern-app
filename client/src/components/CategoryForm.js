@@ -32,9 +32,7 @@ export default function CategoryForm({ editCategory }) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
-  function handleDate(newValue) {
-    setForm({ ...form, date: newValue });
-  }
+
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -79,7 +77,7 @@ export default function CategoryForm({ editCategory }) {
     const _user = {
       ...user,
       categories: user.categories.map((cat) =>
-        cat._id == editCategory._id ? form : cat
+        cat._id === editCategory._id ? form : cat
       ),
     };
     reload(res, _user);

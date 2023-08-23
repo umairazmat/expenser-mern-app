@@ -16,6 +16,8 @@ export const get = async (req, res) => {
             description: "$description",
             date: "$date",
             category_id: "$category_id",
+            type: "$type",
+            _id: "$_id",
           },
         },
         totalExpenses: { $sum: "$amount" },
@@ -35,8 +37,8 @@ export const create = async (req, res) => {
       amount,
       title,
       description,
-      user_id: req.user._id,
       date,
+      user_id: req.user._id,
       category_id
     });
 

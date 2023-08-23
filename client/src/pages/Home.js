@@ -17,11 +17,12 @@ export default function Home() {
   async function fetchTransactions() {
     const token = Cookies.get("token");
     const res = await fetch(`${process.env.REACT_APP_API_URL}/transaction`, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     const { data } = await res.json();
     setTransactions(data);
-    console.log("from server:", data);
   }
 
   return (

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import EditSharpIcon from "@mui/icons-material/EditSharp";
 import DeleteSharpIcon from "@mui/icons-material/DeleteSharp";
 import IconButton from "@mui/material/IconButton";
@@ -19,8 +19,23 @@ export default function TransactionsList({
   fetchTransactions,
   setEditTransaction,
 }) {
+
+  
+  
   const user = useSelector((state) => state.auth.user);
+  useEffect(() => {
+    const hasReloaded = localStorage.getItem("hasReloaded");
+    if (!hasReloaded && user) {
+      localStorage.setItem("hasReloaded", "true");
+      window.location.reload();
+    }
+  }, [user]);
+
+
+
   function categoryName(id) {
+
+    if (!user || !user.categories) return "NA";
     const category = user.categories.find((category) => category._id === id);
     return category ? category.label : "Not Found";
   }
@@ -60,7 +75,7 @@ export default function TransactionsList({
   }
 
   function format(date) {
-    return dayjs(date).format("DD-MMM, YYYY dddd");
+    return dayjs(date).format("DD MMM, YYYY");
   }
 
   return (

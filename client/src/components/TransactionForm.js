@@ -7,7 +7,6 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { useState, useEffect } from "react";
-import { create } from "@mui/material/styles/createTransitions";
 import { Autocomplete, Box, Container } from "@mui/material";
 import Cookies from "js-cookie";
 import { useSelector } from "react-redux";
@@ -18,22 +17,29 @@ const InitialForm = {
   description: "",
   date: new Date(),
   category_id: "",
+  type: "expenses",
 };
 
-export default function TransactionForm({fetchTransactions, editTransaction,}) {
-  const {categories} = useSelector((state) => state.auth.user);
-  
-  const [form, setForm] = useState(InitialForm);
-  
-  const [isUpdating, setIsUpdating] = useState(false);
+export default function TransactionForm({
+  fetchTransactions,
+  editTransaction,
+}) {
+  const authState = useSelector((state) => state.auth);
+  const { categories } = authState.user || {}; // Use empty object as a fallback
+
   const token = Cookies.get("token");
+  const [form, setForm] = useState(InitialForm);
+  const types = ["expense", "income", "transfer"];
+  const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(() => {
     if (
       editTransaction.amount !== undefined &&
       editTransaction.title !== undefined &&
       editTransaction.description !== undefined &&
-      editTransaction.date !== undefined
+      editTransaction.date !== undefined &&
+      editTransaction.category_id !== undefined &&
+      editTransaction.type !== undefined
     ) {
       setForm(editTransaction);
       setIsUpdating(true);
@@ -111,10 +117,10 @@ export default function TransactionForm({fetchTransactions, editTransaction,}) {
   }
 
   function getCategoryNameById() {
-    return categories.find((category) => category._id === form.category_id)?? " ";
+    return (
+      categories.find((category) => category._id === form.category_id) ?? ""
+    );
   }
-  
-  
 
   return (
     <>
@@ -132,7 +138,19 @@ export default function TransactionForm({fetchTransactions, editTransaction,}) {
             <Typography variant="h6" sx={{ paddingBottom: 2 }}>
               Add New Transaction here
             </Typography>
-            <Box component="form" onSubmit={handleSubmit} >
+            <Box component="form" onSubmit={handleSubmit}>
+              <Autocomplete
+                value={form.type}
+                onChange={(event, newValue) => {
+                  setForm({ ...form, type: newValue });
+                }}
+                id="type"
+                options={types}
+                sx={{ width: 200, marginRight: 5 }}
+                renderInput={(params) => (
+                  <TextField {...params} size="small" label="Type" />
+                )}
+              />
               <TextField
                 type="number"
                 sx={{ marginRight: 2, marginBottom: 2 }}
@@ -179,18 +197,20 @@ export default function TransactionForm({fetchTransactions, editTransaction,}) {
                   )}
                 />
               </LocalizationProvider>
-              <Autocomplete
-                value={getCategoryNameById()}
-                onChange={(event, newValue) => {
-                  setForm({ ...form, category_id: newValue._id });
-                }}
-                id="controllable-states-demo"
-                options={categories}
-                sx={{ marginRight: 2, marginBottom: 2 ,width: 200  }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Categories" />
-                )}
-              />
+              {categories && categories.length > 0 && (
+                <Autocomplete
+                  value={getCategoryNameById()}
+                  onChange={(event, newValue) => {
+                    setForm({ ...form, category_id: newValue._id });
+                  }}
+                  id="controllable-states-demo"
+                  options={categories}
+                  sx={{ width: 200, marginRight: 5 }}
+                  renderInput={(params) => (
+                    <TextField {...params} size="small" label="Category" />
+                  )}
+                />
+              )}
               {isUpdating ? (
                 <Button
                   color="secondary"
@@ -199,7 +219,7 @@ export default function TransactionForm({fetchTransactions, editTransaction,}) {
                   variant="contained"
                   size="small"
                   label="Update"
-                  sx={{ marginRight: 2, marginBottom: 2 ,width: 100  }}
+                  sx={{ marginRight: 2, marginBottom: 2, width: 100 }}
                 >
                   Update
                 </Button>
@@ -211,7 +231,7 @@ export default function TransactionForm({fetchTransactions, editTransaction,}) {
                   variant="contained"
                   size="large"
                   label="Submit"
-                  sx={{ marginRight: 2, marginBottom: 2 ,width: 100  }}
+                  sx={{ marginRight: 2, marginBottom: 2, width: 100 }}
                 >
                   Submit
                 </Button>
