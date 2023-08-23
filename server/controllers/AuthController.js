@@ -1,8 +1,6 @@
-import { Router } from "express";
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-const router = Router();
 
 const categories = [
   {label: "Food" , icon:"user"},
