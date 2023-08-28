@@ -29,8 +29,8 @@ export const get = async (req, res) => {
 };
 
 export const create = async (req, res) => {
-  console.log(req.body); // Log the request body to the console for debugging purposes
-  console.log(req.user); // Log the request body to the console for debugging purposes
+  // console.log(req.body); // Log the request body to the console for debugging purposes
+  // console.log(req.user); // Log the request body to the console for debugging purposes
   try {
     const { amount, title, description, date , category_id } = req.body;
     const transaction = new TransactionModel({
@@ -52,7 +52,7 @@ export const create = async (req, res) => {
 
 // Controller function for deleting a transaction
 export const destroy = async (req, res) => {
-  console.log(req.params.id); // Log the transaction ID to the console for debugging
+  // console.log(req.params.id); // Log the transaction ID to the console for debugging
   try {
     await Transaction.deleteOne({ _id: req.params.id }); // Delete the transaction with the given ID
     res.json({ message: "Successfully Deleted" }); // Respond with a success message

@@ -23,7 +23,7 @@ passportConfig(passport);
 
 
 dotenv.config();
-const Port = process.env.PORT;
+const Port = process.env.PORT || 4000 ;
 const user = process.env.USER;
 const password = process.env.PASSWORD;
 const url = process.env.URL;
