@@ -50,7 +50,7 @@ export default function TransactionForm({
   }, [editTransaction]);
 
   function handleInput(e) {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
@@ -64,16 +64,16 @@ export default function TransactionForm({
     try {
       const res = isUpdating ? await update() : await create();
 
-      console.log("Working");
-      console.log(form);
+      // console.log("Working");
+      // console.log(form);
 
       if (res && res.ok) {
         const data = await res.json();
-        console.log("Response from Post", data); // Log the response data
+        // console.log("Response from Post", data); // Log the response data
         fetchTransactions(); // Fetch updated transactions
         setForm(InitialForm); // Reset the form
       } else {
-        console.log("Error occurred while submitting the transaction");
+        // console.log("Error occurred while submitting the transaction");
       }
     } catch (error) {
       console.error("An error occurred while submitting:", error);

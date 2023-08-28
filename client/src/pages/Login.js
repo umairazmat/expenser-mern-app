@@ -59,7 +59,7 @@ export default function Login() {
 
       Cookies.set('token',token)
       dispatch(getUser(userExists));
-      console.log("Successfully Logged In " ,token);
+      console.log("Successfully Logged In ");
        navigate('/');
       // Perform any further actions or handle success state here
     } else {

@@ -44,7 +44,7 @@ export default function TransactionsList({
   let rowNumber = 1;
 
   async function removeTransaction(_id) {
-    console.log(_id);
+    // console.log(_id);
     if (!window.confirm("Are you sure you want to delete the transaction?"))
       return;
 
@@ -62,7 +62,7 @@ export default function TransactionsList({
 
       if (res.ok) {
         fetchTransactions();
-        console.log("Transaction deleted");
+        // console.log("Transaction deleted");
         window.alert("Transaction deleted successfully");
       } else {
         const data = await res.json();
